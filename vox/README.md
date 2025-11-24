@@ -46,6 +46,29 @@ pnpx create-payload-app my-project -t website
 
 That's it! Changes made in `./src` will be reflected in your app. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
 
+## VOX Quick Start
+
+This template has been customized for the VOX academic journal platform. Here's how to get started:
+
+### 1. Seed the Database
+Navigate to `http://localhost:3000/admin/next/seed` to populate with demo data.
+
+### 2. Login with Demo Credentials
+- **Email**: `demo-admin@example.com`
+- **Password**: `password`
+
+⚠️ **Change this password immediately in production!**
+
+### 3. Explore Demo Data
+The seed creates:
+- 3 Research Labs
+- 9 Researchers (3 PIs, 6 Students)
+- 6 Published Articles
+- 1 Journal (VOX)
+
+### 4. Initial Admin Setup
+If starting fresh without seed data, see [INITIAL_ADMIN_SETUP.md](./INITIAL_ADMIN_SETUP.md) for creating your first admin account.
+
 ## How it works
 
 The Payload config is tailored specifically to the needs of most websites. It is pre-configured in the following ways:

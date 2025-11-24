@@ -20,8 +20,8 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
           link: {
             type: 'custom',
             appearance: 'default',
-            label: 'All posts',
-            url: '/posts',
+            label: 'All articles',
+            url: '/articles',
           },
         },
         {
@@ -29,7 +29,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
             type: 'custom',
             appearance: 'outline',
             label: 'Contact',
-            url: '/contact',
+            url: '/articles',
           },
         },
       ],
@@ -516,7 +516,6 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
       {
         blockName: 'Archive Block',
         blockType: 'archive',
-        categories: [],
         introContent: {
           root: {
             type: 'root',
@@ -530,7 +529,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
                     format: 0,
                     mode: 'normal',
                     style: '',
-                    text: 'Recent posts',
+                    text: 'Recent articles',
                     version: 1,
                   },
                 ],
@@ -549,7 +548,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
                     format: 0,
                     mode: 'normal',
                     style: '',
-                    text: 'The posts below are displayed in an "Archive" layout building block which is an extremely powerful way to display documents on a page. It can be auto-populated by collection or by category, or posts can be individually selected. Pagination controls will automatically appear if the number of results exceeds the number of items per page.',
+                    text: 'The articles below are displayed in an "Archive" layout building block which is an extremely powerful way to display documents on a page. It can be auto-populated by collection or by category, or articles can be individually selected. Pagination controls will automatically appear if the number of results exceeds the number of items per page.',
                     version: 1,
                   },
                 ],
@@ -567,7 +566,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
           },
         },
         populateBy: 'collection',
-        relationTo: 'posts',
+        relationTo: 'articles',
       },
       {
         blockName: 'CTA',
@@ -577,8 +576,8 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
             link: {
               type: 'custom',
               appearance: 'default',
-              label: 'All posts',
-              url: '/posts',
+              label: 'All articles',
+              url: '/articles',
             },
           },
         ],

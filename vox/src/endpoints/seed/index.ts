@@ -6,15 +6,10 @@ import { home } from './home'
 import { image1 } from './image-1'
 import { image2 } from './image-2'
 import { imageHero1 } from './image-hero-1'
-import { post1 } from './post-1'
-import { post2 } from './post-2'
-import { post3 } from './post-3'
 
 const collections: CollectionSlug[] = [
-  'categories',
   'media',
   'pages',
-  'posts',
   'forms',
   'form-submissions',
   'search',
@@ -22,7 +17,6 @@ const collections: CollectionSlug[] = [
 
 const globals: GlobalSlug[] = ['header', 'footer']
 
-const categories = ['Technology', 'News', 'Finance', 'Design', 'Software', 'Engineering']
 
 // Next.js revalidation errors are normal when seeding the database without a server running
 // i.e. running `yarn seed` locally instead of using the admin UI within an active app
@@ -69,18 +63,6 @@ export const seed = async ({
       .map((collection) => payload.db.deleteVersions({ collection, req, where: {} })),
   )
 
-  payload.logger.info(`— Seeding demo author and user...`)
-
-  await payload.delete({
-    collection: 'users',
-    depth: 0,
-    where: {
-      email: {
-        equals: 'demo-author@example.com',
-      },
-    },
-  })
-
   payload.logger.info(`— Seeding media...`)
 
   const [image1Buffer, image2Buffer, image3Buffer, hero1Buffer] = await Promise.all([
@@ -98,15 +80,7 @@ export const seed = async ({
     ),
   ])
 
-  const [demoAuthor, image1Doc, image2Doc, image3Doc, imageHomeDoc] = await Promise.all([
-    payload.create({
-      collection: 'users',
-      data: {
-        name: 'Demo Author',
-        email: 'demo-author@example.com',
-        password: 'password',
-      },
-    }),
+  const [image1Doc, image2Doc, image3Doc, imageHomeDoc] = await Promise.all([
     payload.create({
       collection: 'media',
       data: image1,
@@ -127,70 +101,8 @@ export const seed = async ({
       data: imageHero1,
       file: hero1Buffer,
     }),
-    categories.map((category) =>
-      payload.create({
-        collection: 'categories',
-        data: {
-          title: category,
-          slug: category,
-        },
-      }),
-    ),
   ])
 
-  payload.logger.info(`— Seeding posts...`)
-
-  // Do not create posts with `Promise.all` because we want the posts to be created in order
-  // This way we can sort them by `createdAt` or `publishedAt` and they will be in the expected order
-  const post1Doc = await payload.create({
-    collection: 'posts',
-    depth: 0,
-    context: {
-      disableRevalidate: true,
-    },
-    data: post1({ heroImage: image1Doc, blockImage: image2Doc, author: demoAuthor }),
-  })
-
-  const post2Doc = await payload.create({
-    collection: 'posts',
-    depth: 0,
-    context: {
-      disableRevalidate: true,
-    },
-    data: post2({ heroImage: image2Doc, blockImage: image3Doc, author: demoAuthor }),
-  })
-
-  const post3Doc = await payload.create({
-    collection: 'posts',
-    depth: 0,
-    context: {
-      disableRevalidate: true,
-    },
-    data: post3({ heroImage: image3Doc, blockImage: image1Doc, author: demoAuthor }),
-  })
-
-  // update each post with related posts
-  await payload.update({
-    id: post1Doc.id,
-    collection: 'posts',
-    data: {
-      relatedPosts: [post2Doc.id, post3Doc.id],
-    },
-  })
-  await payload.update({
-    id: post2Doc.id,
-    collection: 'posts',
-    data: {
-      relatedPosts: [post1Doc.id, post3Doc.id],
-    },
-  })
-  await payload.update({
-    id: post3Doc.id,
-    collection: 'posts',
-    data: {
-      relatedPosts: [post1Doc.id, post2Doc.id],
-    },
-  })
 
   payload.logger.info(`— Seeding contact form...`)
 
@@ -225,8 +137,29 @@ export const seed = async ({
           {
             link: {
               type: 'custom',
-              label: 'Posts',
-              url: '/posts',
+              label: 'Articles',
+              url: '/articles',
+            },
+          },
+          {
+            link: {
+              type: 'custom',
+              label: 'Labs',
+              url: '/labs',
+            },
+          },
+          {
+            link: {
+              type: 'custom',
+              label: 'People',
+              url: '/people',
+            },
+          },
+          {
+            link: {
+              type: 'custom',
+              label: 'Journals',
+              url: '/journals',
             },
           },
           {
@@ -273,6 +206,136 @@ export const seed = async ({
       },
     }),
   ])
+
+  payload.logger.info(`— Seeding VOX-specific data...`)
+
+  // Delete existing VOX data
+  payload.logger.info(`— Clearing VOX collections...`)
+  await Promise.all([
+    payload.db.deleteMany({ collection: 'users', req, where: {} }),
+    payload.db.deleteMany({ collection: 'labs', req, where: {} }),
+    payload.db.deleteMany({ collection: 'journals', req, where: {} }),
+    payload.db.deleteMany({ collection: 'articles', req, where: {} }),
+  ])
+
+  // Create demo admin user for journal editors
+  payload.logger.info(`— Creating demo admin user...`)
+  const demoAuthor = await payload.create({
+    collection: 'users',
+    data: {
+      type: 'admin',
+      firstName: 'Demo',
+      lastName: 'Admin',
+      email: 'demo-admin@example.com',
+      password: 'password',
+    },
+  })
+
+  // Import VOX seed data
+  const { users: usersData } = await import('./users-data')
+  const { labs: labsData } = await import('./labs-data')
+  const { journal: journalData } = await import('./journal-data')
+  const { articles: articlesData } = await import('./articles-data')
+
+  // Create users (PIs and students)
+  payload.logger.info(`— Creating researchers...`)
+  const userData = usersData()
+  const createdUsers = await Promise.all(
+    userData.map((user, index) =>
+      payload.create({
+        collection: 'users',
+        data: {
+          ...user,
+          email: `${user.firstName.toLowerCase()}.${user.lastName.toLowerCase()}@example.com`,
+          password: 'password',
+        },
+      })
+    )
+  )
+
+  const piIds = createdUsers.filter(u => u.type === 'pi').map(u => u.id)
+  const studentIds = createdUsers.filter(u => u.type === 'student').map(u => u.id)
+
+  // Create labs
+  payload.logger.info(`— Creating labs...`)
+  const labData = labsData({ pis: piIds, students: studentIds })
+  const createdLabs = await Promise.all(
+    labData.map(lab =>
+      payload.create({
+        collection: 'labs',
+        data: lab,
+      })
+    )
+  )
+
+  // Update users with lab affiliations
+  payload.logger.info(`— Updating user affiliations...`)
+  await Promise.all([
+    // PI 1 -> Lab 1
+    payload.update({
+      collection: 'users',
+      id: piIds[0],
+      data: { affiliation: [createdLabs[0].id] },
+    }),
+    // PI 2 -> Lab 2
+    payload.update({
+      collection: 'users',
+      id: piIds[1],
+      data: { affiliation: [createdLabs[1].id] },
+    }),
+    // PI 3 -> Lab 3
+    payload.update({
+      collection: 'users',
+      id: piIds[2],
+      data: { affiliation: [createdLabs[2].id] },
+    }),
+    // Students -> their respective labs
+    ...studentIds.slice(0, 2).map(id =>
+      payload.update({
+        collection: 'users',
+        id,
+        data: { affiliation: [createdLabs[0].id] },
+      })
+    ),
+    ...studentIds.slice(2, 4).map(id =>
+      payload.update({
+        collection: 'users',
+        id,
+        data: { affiliation: [createdLabs[1].id] },
+      })
+    ),
+    ...studentIds.slice(4, 6).map(id =>
+      payload.update({
+        collection: 'users',
+        id,
+        data: { affiliation: [createdLabs[2].id] },
+      })
+    ),
+  ])
+
+  // Create journal
+  payload.logger.info(`— Creating journal...`)
+  const voxJournal = await payload.create({
+    collection: 'journals',
+    data: journalData([demoAuthor.id]),
+  })
+
+  // Create articles
+  payload.logger.info(`— Creating articles...`)
+  const articleData = articlesData({
+    userIds: createdUsers.map(u => u.id),
+    journalId: voxJournal.id,
+    labIds: createdLabs.map(l => l.id),
+  })
+
+  await Promise.all(
+    articleData.map(article =>
+      payload.create({
+        collection: 'articles',
+        data: article,
+      })
+    )
+  )
 
   payload.logger.info('Seeded database successfully!')
 }

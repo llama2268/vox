@@ -24,38 +24,37 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
     select: {
       title: true,
       slug: true,
-      categories: true,
       meta: true,
     },
     // pagination: false reduces overhead if you don't need totalDocs
     pagination: false,
     ...(query
       ? {
-          where: {
-            or: [
-              {
-                title: {
-                  like: query,
-                },
+        where: {
+          or: [
+            {
+              title: {
+                like: query,
               },
-              {
-                'meta.description': {
-                  like: query,
-                },
+            },
+            {
+              'meta.description': {
+                like: query,
               },
-              {
-                'meta.title': {
-                  like: query,
-                },
+            },
+            {
+              'meta.title': {
+                like: query,
               },
-              {
-                slug: {
-                  like: query,
-                },
+            },
+            {
+              slug: {
+                like: query,
               },
-            ],
-          },
-        }
+            },
+          ],
+        },
+      }
       : {}),
   })
 
@@ -73,7 +72,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       </div>
 
       {posts.totalDocs > 0 ? (
-        <CollectionArchive posts={posts.docs as CardPostData[]} />
+        <CollectionArchive articles={posts.docs as CardPostData[]} />
       ) : (
         <div className="container">No results found.</div>
       )}

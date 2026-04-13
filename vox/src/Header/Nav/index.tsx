@@ -6,10 +6,11 @@ import type { Header as HeaderType } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
 import Link from 'next/link'
-import { SearchIcon } from 'lucide-react'
 
-export const HeaderNav: React.FC<{ data: { navItems: any[] } }> = ({ data }) => {
+export const HeaderNav: React.FC<{ data: { navItems: any[] }; isHome?: boolean }> = ({ data, isHome }) => {
   const navItems = data?.navItems || []
+  const textColor = isHome ? 'text-white' : 'text-[#1B174E]'
+  const hoverColor = 'hover:text-[#5C6DAD]'
 
   return (
     <nav className="flex gap-6 items-center">
@@ -17,7 +18,7 @@ export const HeaderNav: React.FC<{ data: { navItems: any[] } }> = ({ data }) => 
         if (children && children.length > 0) {
           return (
             <div key={i} className="relative group">
-              <button className="flex items-center gap-1 text-sm font-medium text-[#0A2D66] hover:text-primary transition-colors py-2">
+              <button className={`flex items-center gap-1 text-sm font-medium ${textColor} ${hoverColor} transition-colors py-2`}>
                 {link.label}
                 <svg
                   width="12"
@@ -36,13 +37,13 @@ export const HeaderNav: React.FC<{ data: { navItems: any[] } }> = ({ data }) => 
                 </svg>
               </button>
               <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 min-w-[200px]">
-                <div className="bg-background border border-border rounded-md shadow-lg p-2 flex flex-col gap-1">
+                <div className="bg-white border border-[#CFDAEE] rounded-md shadow-lg p-2 flex flex-col gap-1">
                   {children.map((child: any, j: number) => (
                     <CMSLink
                       key={j}
                       {...child.link}
                       appearance="inline"
-                      className="block px-4 py-2 text-sm hover:bg-muted rounded-sm transition-colors"
+                      className="block px-4 py-2 text-sm text-[#1B174E] hover:bg-[#CFDAEE]/50 rounded-sm transition-colors"
                     />
                   ))}
                 </div>
@@ -50,9 +51,8 @@ export const HeaderNav: React.FC<{ data: { navItems: any[] } }> = ({ data }) => 
             </div>
           )
         }
-        return <CMSLink key={i} {...link} appearance="link" className="text-sm font-medium text-[#0A2D66] hover:text-primary transition-colors" />
+        return <CMSLink key={i} {...link} appearance="link" className={`text-sm font-medium ${textColor} ${hoverColor} transition-colors`} />
       })}
-      
     </nav>
   )
 }

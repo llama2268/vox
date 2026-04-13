@@ -14,19 +14,44 @@ export async function Footer() {
   const navItems = footerData?.navItems || []
 
   return (
-    <footer className="mt-auto border-t border-border bg-black dark:bg-card text-white">
-      <div className="container py-8 gap-8 flex flex-col md:flex-row md:justify-between">
-        <Link className="flex items-center" href="/">
-          <Logo />
-        </Link>
+    <footer className="mt-auto bg-[#1B174E] text-white">
+      <div className="container py-12">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-8">
+          {/* Brand column */}
+          <div className="flex flex-col gap-4 max-w-sm">
+            <Link className="flex items-center" href="/">
+              <Logo className="brightness-0 invert" />
+            </Link>
+            <p className="text-sm text-[#CFDAEE]/80 leading-relaxed">
+              VOX Equity is the research think tank arm of{' '}
+              <a
+                href="https://thevoicesof.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#F99534] hover:underline"
+              >
+                Voices of Equity
+              </a>
+              .
+            </p>
+          </div>
 
-        <div className="flex flex-col-reverse items-start md:flex-row gap-4 md:items-center">
-          <ThemeSelector />
-          <nav className="flex flex-col md:flex-row gap-4">
-            {navItems.map(({ link }, i) => {
-              return <CMSLink className="text-white" key={i} {...link} />
-            })}
-          </nav>
+          {/* Nav + controls */}
+          <div className="flex flex-col-reverse items-start md:flex-row gap-6 md:items-center">
+            <ThemeSelector />
+            <nav className="flex flex-col md:flex-row gap-4">
+              {navItems.map(({ link }, i) => {
+                return <CMSLink className="text-[#CFDAEE] hover:text-white transition-colors text-sm" key={i} {...link} />
+              })}
+            </nav>
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="mt-10 pt-6 border-t border-white/10 text-center">
+          <p className="text-xs text-[#CFDAEE]/60">
+            &copy; 2026 VOX Equity Think Tank. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

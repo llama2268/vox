@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 
 import { cn } from '@/utilities/ui'
 import localFont from 'next/font/local'
+import { Anton } from 'next/font/google'
 import { GeistMono } from 'geist/font/mono'
 import { GeistSans } from 'geist/font/sans'
 import React from 'react'
@@ -22,12 +23,19 @@ const druk = localFont({
   variable: '--font-druk',
 })
 
+const anton = Anton({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-anton',
+  display: 'swap',
+})
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
 
   return (
     <html
-      className={cn(GeistSans.variable, GeistMono.variable, druk.variable)}
+      className={cn(GeistSans.variable, GeistMono.variable, druk.variable, anton.variable)}
       lang="en"
       suppressHydrationWarning
     >
@@ -58,6 +66,6 @@ export const metadata: Metadata = {
   openGraph: mergeOpenGraph(),
   twitter: {
     card: 'summary_large_image',
-    creator: '@payloadcms',
+    creator: '@vaboratory',
   },
 }

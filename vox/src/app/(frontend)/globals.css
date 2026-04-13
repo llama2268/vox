@@ -15,37 +15,39 @@
   }
 
   :root {
-    /* VOX Brand Colors */
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* VOX Equity Brand Colors */
+    /* Cream/Off-White — primary background (50% of surface area) */
+    --background: 36 47% 95%;
+    --foreground: 345 5% 13%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 345 5% 13%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 345 5% 13%;
 
-    /* Deep Blue */
-    --primary: 210 100% 20%;
-    --primary-foreground: 210 40% 98%;
+    /* Midnight Blue #1B174E */
+    --primary: 243 56% 20%;
+    --primary-foreground: 36 47% 95%;
 
-    /* Maroon */
-    --secondary: 340 60% 30%;
-    --secondary-foreground: 210 40% 98%;
+    /* Steel Blue #5C6DAD */
+    --secondary: 228 30% 52%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Powder Blue #CFDAEE */
+    --muted: 220 47% 87%;
+    --muted-foreground: 243 56% 20%;
 
-    /* Gold */
-    --accent: 45 60% 50%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Vibrant Orange #F99534 (accent) */
+    --accent: 30 94% 59%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 220 30% 85%;
+    --input: 220 30% 85%;
+    --ring: 243 56% 20%;
 
     --radius: 0.5rem;
 
@@ -55,35 +57,33 @@
   }
 
   [data-theme='dark'] {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 243 56% 8%;
+    --foreground: 36 47% 95%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 243 40% 12%;
+    --card-foreground: 36 47% 95%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 243 40% 12%;
+    --popover-foreground: 36 47% 95%;
 
-    /* Light Blue for dark mode primary */
-    --primary: 210 100% 60%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 220 47% 87%;
+    --primary-foreground: 243 56% 20%;
 
-    /* Lighter Maroon/Pink for dark mode secondary */
-    --secondary: 340 60% 60%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 228 30% 52%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 243 30% 18%;
+    --muted-foreground: 220 30% 75%;
 
-    --accent: 45 60% 50%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 30 94% 59%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 243 30% 22%;
+    --input: 243 30% 22%;
+    --ring: 220 47% 87%;
 
     --success: 142 70% 50%;
     --warning: 38 92% 50%;
@@ -116,6 +116,21 @@ html[data-theme='light'] {
   }
 
   .shadow-glass {
-    @apply shadow-[0_4px_30px_rgba(0, 0, 0, 0.1)];
+    @apply shadow-[0_4px_30px_rgba(0,0,0,0.1)];
+  }
+
+  .font-headline {
+    font-family: var(--font-druk), var(--font-anton), 'Anton', sans-serif;
+    text-transform: uppercase;
+  }
+
+  .font-subhead {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 700;
+  }
+
+  .font-body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 400;
   }
 }

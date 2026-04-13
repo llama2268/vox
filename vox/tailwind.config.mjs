@@ -56,6 +56,14 @@ const config = {
         sm: 'calc(var(--radius) - 4px)',
       },
       colors: {
+        /* VOX Equity Brand Palette */
+        'vox-midnight': '#1B174E',
+        'vox-steel': '#5C6DAD',
+        'vox-powder': '#CFDAEE',
+        'vox-cream': '#F8F3EB',
+        'vox-orange': '#F99534',
+        'vox-black': '#231F20',
+
         accent: {
           DEFAULT: 'hsl(var(--accent))',
           foreground: 'hsl(var(--accent-foreground))',
@@ -96,7 +104,9 @@ const config = {
       fontFamily: {
         mono: ['var(--font-geist-mono)'],
         sans: ['var(--font-geist-sans)'],
-        heading: ['var(--font-druk)', 'sans-serif'],
+        heading: ['var(--font-druk)', 'var(--font-anton)', "'Anton'", 'sans-serif'],
+        subhead: ["'Helvetica Neue'", 'Helvetica', 'Arial', 'sans-serif'],
+        body: ["'Helvetica Neue'", 'Helvetica', 'Arial', 'sans-serif'],
       },
       keyframes: {
         'accordion-down': {

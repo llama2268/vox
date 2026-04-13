@@ -1,9 +1,5 @@
 import type { Metadata } from 'next'
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
 import React from 'react'
-import Image from 'next/image'
-import { Container } from '@/components/ui/container'
 import { Link } from '@/components/ui/typography'
 import { Logo } from '@/components/Logo/Logo'
 import { WhoWeAreSection } from '@/components/sections/WhoWeAre'
@@ -13,8 +9,6 @@ import { JournalSection } from '@/components/sections/Journal'
 import { ContactSection } from '@/components/sections/Contact'
 
 export default async function HomePage() {
-    const payload = await getPayload({ config: configPromise })
-
     return (
         <div className="min-h-screen">
             {/* Hero Section */}
